@@ -40,7 +40,7 @@ entity ifram is
 			 pc_pc: in STD_LOGIC_VECTOR(15 downto 0);
 			 b_need_id: in STD_LOGIC;
 		 	 b_pc_id: in STD_LOGIC_VECTOR(15 downto 0);
-		    b_need_ex: in STD_LOGIC;
+		     b_need_ex: in STD_LOGIC;
 			 b_pc_ex: in STD_LOGIC_VECTOR(15 downto 0);
 					
 			 nextpc: out STD_LOGIC_VECTOR(15 downto 0);
@@ -83,7 +83,7 @@ begin
 			when 3 =>
 				if (pause='0') then
 					inst<=ram2data;
-					nextpc<=realpc+"0000000000000001";
+					nextpc<=realpc;
 				end if;
 				state<=4;
 			when 4 =>

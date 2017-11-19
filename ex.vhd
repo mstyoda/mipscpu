@@ -47,7 +47,6 @@ Port (
         op_alu: in  std_logic_vector(2 downto 0);
         op_mem: in std_logic_vector(1 downto 0);
         
-        need_wb: in STD_LOGIC;
         wb_addr: in STD_LOGIC_VECTOR(3 downto 0);
         
         answer: out STD_LOGIC_VECTOR(15 downto 0);
@@ -98,18 +97,27 @@ begin
 								if (r_data_wb = ZERO16) then
 									b_need <= '1';
 									b_pc <= correctpc_ex + imm;
+									predict_result <= PREDICT_WRONG;
 								else 
 									b_need <= '0';
+									predict_result <= PREDICT_CORRECT;
 								end if;
 								
 							when PREDICT_NZ =>
 								if (r_data_wb /= ZERO16) then
 									b_need <= '1';
 									b_pc <= correctpc_ex + imm;
+									predict_result <= PREDICT_WRONG;
 								else 
 									b_need <= '0';
+									predict_result <= PREDICT_CORRECT;
 								end if;
-							when others=> b_need <= '0';
+							when PREDICT_JR =>
+								b_need <= '1';
+								b_pc <= r_data_wb;
+								predict_result <= PREDICT_CORRECT;
+
+							when others=> b_need <= '0';predict_result <= PREDICT_CORRECT;
 						end case;
 
 					---get ra from last last wb_data.
@@ -135,7 +143,13 @@ begin
 									b_need <= '0';
 									predict_result <= PREDICT_CORRECT;
 								end if;
-							when others=> b_need <= '0';
+
+							when PREDICT_JR =>
+								b_need <= '1';
+								b_pc <= r_data_mem;
+								predict_result <= PREDICT_CORRECT;
+							
+							when others=> b_need <= '0'; predict_result <= PREDICT_CORRECT;
 						end case;
 					
 					--get ra from a
@@ -161,7 +175,13 @@ begin
 									b_need <= '0';
 									predict_result <= PREDICT_CORRECT;
 								end if;
-							when others=> b_need <= '0';
+
+							when PREDICT_JR =>
+								b_need <= '1';
+								b_pc <= a;
+								predict_result <= PREDICT_CORRECT;
+							
+							when others=> b_need <= '0'; predict_result <= PREDICT_CORRECT;
 						end case;
 					end if;
 					
@@ -227,7 +247,7 @@ begin
 							else
 								answer <= ra or rb;
 							end if;
-						when others => answer <= (others => '0');
+						when others => answer <= rb;
 					end case;
 					
 					addr_save <= ra + imm;
@@ -248,7 +268,7 @@ begin
 					
 				when 4 =>
 					state <= 1;
-				when others => 
+				when others => state <= 1;
 
 			end case;
 		end if;

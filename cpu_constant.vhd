@@ -20,6 +20,7 @@ constant ALU_SRL : std_logic_vector(2 downto 0):= "101";
 constant ALU_OR : std_logic_vector(2 downto 0):= "110";
 constant ALU_NOP : std_logic_vector(2 downto 0):= "111";
 
+
 constant MEM_NOP: std_logic_vector(1 downto 0):= "00";
 constant MEM_READ: std_logic_vector(1 downto 0):= "01";
 constant MEM_WRITE: std_logic_vector(1 downto 0):= "10";
@@ -28,13 +29,38 @@ constant MEM_WRITE: std_logic_vector(1 downto 0):= "10";
 constant PREDICT_NOP: std_logic_vector(1 downto 0):= "00";
 constant PREDICT_EZ: std_logic_vector(1 downto 0):= "01";
 constant PREDICT_NZ: std_logic_vector(1 downto 0):= "10";
+constant PREDICT_JR: std_logic_vector(1 downto 0):= "11";
 
 constant PREDICT_WRONG: std_logic := '0';
 constant PREDICT_CORRECT: std_logic := '1';
 
 constant INST_NOP : std_logic_vector(15 downto 0):="0000100000000000";
 constant ZERO16 :   std_logic_vector(15 downto 0):="0000000000000000";
+constant ONES16 :   std_logic_vector(15 downto 0):="0000000000000001";
+constant ZERO8 :   std_logic_vector(7 downto 0):="00000000";
+
 constant OX7FFF :   std_logic_vector(15 downto 0):="0111111111111111";
+
+
+constant INST_OPT_ADDIU: std_logic_vector(4 downto 0) := "01001";
+constant INST_OPT_ADDIU3: std_logic_vector(4 downto 0) := "01000";
+constant INST_OPT_ADDSP_BTEQZ_MTSP_BTNEZ: std_logic_vector(4 downto 0) := "01100";
+constant INST_OPT_ADDU_SUBU: std_logic_vector(4 downto 0) := "11100";
+constant INST_OPT_AND_CMP_JR_MFPC_OR_NEG: std_logic_vector(4 downto 0) := "11101";
+constant INST_OPT_B: std_logic_vector(4 downto 0) := "00010";
+constant INST_OPT_BEQZ: std_logic_vector(4 downto 0) := "00100";
+constant INST_OPT_BNEZ: std_logic_vector(4 downto 0) := "00101";
+constant INST_OPT_LI: std_logic_vector(4 downto 0) := "01101";
+constant INST_OPT_LW: std_logic_vector(4 downto 0) := "10011";
+constant INST_OPT_LW_SP: std_logic_vector(4 downto 0) := "10010";
+constant INST_OPT_MFIH_MTIH: std_logic_vector(4 downto 0) := "11110";
+constant INST_OPT_NOP: std_logic_vector(4 downto 0) := "00001";
+constant INST_OPT_SLL_SRA_SRL: std_logic_vector(4 downto 0) := "00110";
+constant INST_OPT_SW: std_logic_vector(4 downto 0) := "11011";
+constant INST_OPT_SW_SP: std_logic_vector(4 downto 0) := "11010";
+constant INST_OPT_MOVE: std_logic_vector(4 downto 0) := "01111";
+constant INST_OPT_ADDSP3: std_logic_vector(4 downto 0) := "00000";
+
 
 
 -- type <new_type> is

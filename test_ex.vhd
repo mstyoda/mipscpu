@@ -54,7 +54,6 @@ ARCHITECTURE behavior OF test_ex IS
          b_imm : IN  std_logic;
          op_alu : IN  std_logic_vector(2 downto 0);
          op_mem : IN  std_logic_vector(1 downto 0);
-         need_wb : IN  std_logic;
          wb_addr : IN  std_logic_vector(3 downto 0);
          answer : OUT  std_logic_vector(15 downto 0);
          addr : OUT  std_logic_vector(15 downto 0);
@@ -123,7 +122,6 @@ BEGIN
           b_imm => b_imm,
           op_alu => op_alu,
           op_mem => op_mem,
-          need_wb => need_wb,
           wb_addr => wb_addr,
           answer => answer,
           addr => addr,
@@ -173,11 +171,11 @@ BEGIN
 		wb_addr <= "0001";
 		r_data_mem <= "1000000000000000";
 		r_addr_mem <= "0000";
-		r_need_mem <= '0';
+		r_need_mem <= '1';
 		
 		r_data_wb  <= "0100000000000000";
 		r_addr_wb  <= "0000";
-		r_need_wb  <= '0';
+		r_need_wb  <= '1';
 		
 		need_predict <= PREDICT_NZ;
 		correctpc_ex <= (others => '0');
