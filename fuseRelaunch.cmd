@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -o "E:/ShuDianShiYan/mipscpu/test_ex_isim_beh.exe" -prj "E:/ShuDianShiYan/mipscpu/test_ex_beh.prj" "work.test_ex" 
+-intstyle "ise" -incremental -o "E:/ShuDianShiYan/mipscpu/test_id_CMP_isim_beh.exe" -prj "E:/ShuDianShiYan/mipscpu/test_id_CMP_beh.prj" "work.test_id_CMP" 

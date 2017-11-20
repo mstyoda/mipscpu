@@ -32,7 +32,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity pc is
     Port ( rst : in  STD_LOGIC;
            clk : in  STD_LOGIC;
-			  stall : in STD_LOGIC_VECTOR(4 downto 0);
+			  stall : in STD_LOGIC_VECTOR(5 downto 0);
 			  pre_pc : in STD_LOGIC_VECTOR(15 downto 0);
 			  pc : out STD_LOGIC_VECTOR(15 downto 0);
 			  pause : out STD_LOGIC

@@ -38,6 +38,8 @@ constant INST_NOP : std_logic_vector(15 downto 0):="0000100000000000";
 constant ZERO16 :   std_logic_vector(15 downto 0):="0000000000000000";
 constant ONES16 :   std_logic_vector(15 downto 0):="0000000000000001";
 constant ZERO8 :   std_logic_vector(7 downto 0):="00000000";
+constant NOSTOP : STD_LOGIC := '1';
+constant STOP : STD_LOGIC := '1';--TODO : change the name,or the value
 
 constant OX7FFF :   std_logic_vector(15 downto 0):="0111111111111111";
 

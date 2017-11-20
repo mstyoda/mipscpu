@@ -61,6 +61,7 @@ signal r7 : std_logic_vector(15 downto 0);
 signal T  : std_logic_vector(15 downto 0);
 signal SP : std_logic_vector(15 downto 0);
 signal IH : std_logic_vector(15 downto 0);
+signal state: integer := 4;
 
 begin
 	process(r2_need,r2_addr,need_wb,wb_addr,wb_data)

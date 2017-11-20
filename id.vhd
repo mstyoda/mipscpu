@@ -147,7 +147,7 @@ begin
 								save_a_addr <= '0' & inst(10 downto 8);
 								save_r2_need <= '0'; r2_need <= '0';
 								save_b_imm <= '1';
-								save_imm <= SXT(inst(7 downto 0), 16); --sign_extend
+								save_imm <= SXT(inst(3 downto 0), 16); --sign_extend
 								save_op_alu <= ALU_ADD;
 								save_op_mem <= MEM_NOP;
 								save_need_wb <= '1';
@@ -192,7 +192,7 @@ begin
 										b_need <= '1';
 										b_pc <= nextpc + ONES16 + SXT(inst(7 downto 0),16);
 										need_predict <= PREDICT_NZ;--predict wrong condition
-										correctpc <= nextpc;---to do
+										correctpc <= nextpc + ONES16;---to do
 									else--not jump
 										b_need <= '0';
 										need_predict <= PREDICT_EZ;--predict wrong condition
@@ -242,7 +242,7 @@ begin
 										b_need <= '1';
 										b_pc <= nextpc + ONES16 + SXT(inst(7 downto 0),16);
 										need_predict <= PREDICT_EZ;--predict wrong condition
-										correctpc <= nextpc;---to do
+										correctpc <= nextpc + ONES16;---to do
 									else--not jump
 										b_need <= '0';
 										need_predict <= PREDICT_NZ;--predict wrong condition
@@ -497,7 +497,7 @@ begin
 									b_need <= '1';
 									b_pc <= nextpc + ONES16 + SXT(inst(7 downto 0),16);
 									need_predict <= PREDICT_NZ;--predict wrong condition
-									correctpc <= nextpc;---to do
+									correctpc <= nextpc + ONES16;---to do
 								else--not jump
 									b_need <= '0';
 									need_predict <= PREDICT_EZ;--predict wrong condition
@@ -529,7 +529,7 @@ begin
 									b_need <= '1';
 									b_pc <= nextpc + ONES16 + SXT(inst(7 downto 0),16);
 									need_predict <= PREDICT_EZ;--predict wrong condition
-									correctpc <= nextpc;---to do
+									correctpc <= nextpc + ONES16;---to do
 								else--not jump
 									b_need <= '0';
 									need_predict <= PREDICT_NZ;--predict wrong condition
@@ -782,7 +782,11 @@ begin
 						end case;
 					state <= 2;
 				when 2 =>
-					if (isNOP = '0') then
+					if (last_predict = PREDICT_WRONG) then
+							save_is_jump <= not save_is_jump;
+						end if;
+
+					if ((isNOP = '0') and (last_predict /= PREDICT_WRONG)) then
 						a <= r1_data;
 						b <= r2_data;
 						imm <= save_imm;
@@ -795,9 +799,6 @@ begin
 						wb_addr <= save_wb_addr;
 						op_mem <= save_op_mem;
 						op_alu <= save_op_alu;
-						if (last_predict = PREDICT_WRONG) then
-							save_is_jump <= not save_is_jump;
-						end if;
 					else
 						a <= ZERO16;
 						b <= ZERO16;
@@ -810,6 +811,8 @@ begin
 						need_wb <= '0';
 						op_mem <= MEM_NOP;
 						op_alu <= ALU_NOP;
+						need_predict <= PREDICT_NOP;
+
 					end if;
 					state <= 3;
 				when 3=>
